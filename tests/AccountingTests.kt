@@ -29,16 +29,19 @@ class AccountingTests {
 
     @Test
     fun period_inside_budget_month() {
-        val budgets = listOf<Budget>(Budget("201803", 31))
-        `when`(budgetRepository.getAll()).thenReturn(budgets)
+        givenBudgets(listOf(Budget("201803", 31)))
         amountShouldBe(1.0, "20180301", "20180301")
+    }
+
+    private fun givenBudgets(budgets: List<Budget>) {
+        `when`(budgetRepository.getAll()).thenReturn(budgets)
     }
 
 
     private fun amountShouldBe(expected: Double, start: String, end: String) {
-        val start = StringToDate(start)
-        val end = StringToDate(end)
-        Assert.assertEquals(expected, accounting.totalAmount(start, end), 0.1)
+        val startDate = StringToDate(start)
+        val endDate = StringToDate(end)
+        Assert.assertEquals(expected, accounting.totalAmount(startDate, endDate), 0.1)
     }
 
     private fun StringToDate(date: String) = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyyMMdd"))
