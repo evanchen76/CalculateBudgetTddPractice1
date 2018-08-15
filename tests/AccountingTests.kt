@@ -30,7 +30,7 @@ class AccountingTests {
     @Test
     fun period_inside_budget_month() {
         val budgets = listOf<Budget>(Budget("201803", 31))
-        `when`(budgetRepository.getAll()).thenReturn(listOf())
+        `when`(budgetRepository.getAll()).thenReturn(budgets)
         amountShouldBe(1.0, "20180301", "20180301")
     }
 
